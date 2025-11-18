@@ -1,0 +1,13 @@
+# Render Backend Deployment Configuration
+
+# Build Command (Render will run this)
+# npm install
+
+# Start Command (Render will run this)
+# npm start
+
+# Environment Variables to add in Render Dashboard:
+# MONGO_URL=your_mongodb_connection_string
+# JWT_SECRET=your_super_secret_jwt_key_min_32_chars
+# PORT=3000
+# NODE_ENV=production
