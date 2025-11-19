@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import useSWRInfinite from "swr/infinite";
 import {
   Container,
   Typography,
   Grid,
   Avatar,
   Box,
+  Button,
   LinearProgress,
   Tooltip,
   Drawer,
@@ -24,18 +26,27 @@ const sidebarCollapsedWidth = 50;
 const sidebarExpandedWidth = 150;
 
 const WinnersPage = () => {
-  const [winnersData, setWinnersData] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-  useEffect(() => {
-    axios
-      .get(`${API_URL}/allParticipantsByVotes`)
-      .then((res) => {
-        const sorted = res.data.sort((a, b) => b.votes - a.votes);
-        setWinnersData(sorted);
-      })
-      .catch((err) => console.error("Error fetching participants:", err));
-  }, []);
+  const getKey = (pageIndex, previousPageData) => {
+    if (previousPageData && !previousPageData.data.length) return null;
+    return `${API_URL}/allParticipantsByVotes?page=${pageIndex + 1}&limit=6`;
+  };
+
+  const { data, size, setSize, isLoading } = useSWRInfinite(getKey, fetcher, {
+    revalidateFirstPage: false,
+    revalidateOnFocus: false,
+  });
+
+  const winnersData = data ? data.flatMap((page) => {
+    if (Array.isArray(page)) return page;
+    return page.data || [];
+  }) : [];
+
+  const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isEmpty = data?.[0]?.data?.length === 0;
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.data?.length < 6);
 
   const sidebarItems = [
     { text: "Register", icon: <PersonAddIcon />, link: "/register" },
@@ -162,6 +173,20 @@ const WinnersPage = () => {
             </Tooltip>
           ))}
         </Grid>
+
+        {/* Load More Button */}
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+          {!isReachingEnd && (
+            <Button
+              variant="contained"
+              onClick={() => setSize(size + 1)}
+              disabled={isLoadingMore}
+              sx={{ fontWeight: "bold", px: 4, py: 1.5 }}
+            >
+              {isLoadingMore ? "Loading..." : "Load More"}
+            </Button>
+          )}
+        </Box>
       </Container>
     </Box>
   );

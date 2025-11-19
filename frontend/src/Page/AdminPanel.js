@@ -46,10 +46,19 @@ const AdminPanel = () => {
   const fetchParticipants = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${API_URL}/allParticipants`);
-      setParticipants(data);
+      // Fetch with a high limit to get all participants for admin management
+      const { data } = await axios.get(`${API_URL}/allParticipants?limit=1000`);
+      
+      if (data.data && Array.isArray(data.data)) {
+        setParticipants(data.data);
+      } else if (Array.isArray(data)) {
+        setParticipants(data);
+      } else {
+        setParticipants([]);
+      }
     } catch (err) {
       console.error("Error fetching participants:", err);
+      setParticipants([]);
     } finally {
       setLoading(false);
     }

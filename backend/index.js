@@ -106,10 +106,14 @@ app.post("/addParticipants", upload.single("image"), async (req, res) => {
   }
 });
 
-// Get all participants
+// Get all participants (with pagination)
 app.get("/allParticipants", async (req, res) => {
   try {
-    // Fetch all participants
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    // Fetch participants with pagination
     const participants = await ParticipantsModel.find(
       {},
       {
@@ -123,10 +127,21 @@ app.get("/allParticipants", async (req, res) => {
       }
     )
       .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .lean();
 
-    // Return ONLY the array
-    res.json(participants);
+    const total = await ParticipantsModel.countDocuments();
+
+    res.json({
+      data: participants,
+      meta: {
+        total,
+        page,
+        limit,
+        hasMore: skip + participants.length < total,
+      },
+    });
 
   } catch (err) {
     console.error("Fetch Participants Error:", err);
@@ -135,11 +150,30 @@ app.get("/allParticipants", async (req, res) => {
 });
 
 
-// Get participants sorted by votes desc
+// Get participants sorted by votes desc (with pagination)
 app.get("/allParticipantsByVotes", async (req, res) => {
   try {
-    const participants = await ParticipantsModel.find().sort({ votes: -1 }).lean();
-    res.json(participants);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+
+    const participants = await ParticipantsModel.find()
+      .sort({ votes: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const total = await ParticipantsModel.countDocuments();
+
+    res.json({
+      data: participants,
+      meta: {
+        total,
+        page,
+        limit,
+        hasMore: skip + participants.length < total,
+      },
+    });
   } catch (err) {
     console.error("Fetch By Votes Error:", err);
     res.status(500).json({ error: err.message || "Server error" });

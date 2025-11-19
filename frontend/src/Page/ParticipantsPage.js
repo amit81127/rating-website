@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, memo } from "react";
 import axios from "axios";
-import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import {
   Container,
@@ -155,18 +155,31 @@ const ParticipantsPage = () => {
     severity: "success",
   });
 
-  // ---- SWR fetch (no localStorage fallback) ----
-  const {
-    data: allParticipants,
-    error,
-    mutate,
-    isLoading,
-  } = useSWR(`${API_URL}/allParticipants`, fetcher, {
-    dedupingInterval: 90_000,
-    revalidateOnFocus: true,
-  });
+  // ---- SWR Infinite for Pagination ----
+  const getKey = (pageIndex, previousPageData) => {
+    if (previousPageData && !previousPageData.data.length) return null; // reached the end
+    return `${API_URL}/allParticipants?page=${pageIndex + 1}&limit=6`;
+  };
 
-  const loading = isLoading;
+  const { data, error, mutate, size, setSize, isLoading } = useSWRInfinite(
+    getKey,
+    fetcher,
+    {
+      revalidateFirstPage: false,
+      revalidateOnFocus: false,
+    }
+  );
+
+  const allParticipants = data ? data.flatMap((page) => {
+    // Handle both new pagination format { data: [...] } and old array format [...]
+    if (Array.isArray(page)) return page;
+    return page.data || [];
+  }) : [];
+  const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isEmpty = data?.[0]?.data?.length === 0;
+  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.data?.length < 6);
+
+  const loading = isLoading && !data;
 
   const getGuestVotes = () => {
     try {
@@ -187,12 +200,18 @@ const ParticipantsPage = () => {
         return;
       }
 
+      // Optimistic UI update
       mutate(
-        (current) =>
-          current?.map((p) =>
-            p._id === id ? { ...p, votes: (p.votes || 0) + 1 } : p
-          ),
-        { optimisticData: true, rollbackOnError: true }
+        (currentData) => {
+          if (!currentData) return currentData;
+          return currentData.map((page) => ({
+            ...page,
+            data: page.data.map((p) =>
+              p._id === id ? { ...p, votes: (p.votes || 0) + 1 } : p
+            ),
+          }));
+        },
+        { revalidate: false }
       );
 
       votes[id] = Date.now();
@@ -285,6 +304,20 @@ const ParticipantsPage = () => {
               );
             })}
       </Grid>
+
+      {/* Load More Button */}
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+        {!isReachingEnd && (
+          <Button
+            variant="contained"
+            onClick={() => setSize(size + 1)}
+            disabled={isLoadingMore}
+            sx={{ fontWeight: "bold", px: 4, py: 1.5 }}
+          >
+            {isLoadingMore ? "Loading..." : "Load More"}
+          </Button>
+        )}
+      </Box>
 
       <Snackbar
         open={snackbar.open}
