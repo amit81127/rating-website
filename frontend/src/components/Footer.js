@@ -1,61 +1,87 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white pt-5 pb-3 mt-5">
-  <div className="container">
-    <div className="row">
+    <footer className="footer-custom mt-auto">
+      <div className="container">
+        <div className="row g-4">
+          {/* Brand Section */}
+          <div className="col-lg-4 col-md-6">
+            <div className="d-flex align-items-center gap-2 mb-3">
+              <img 
+                src="axislogo-removebg-preview.png" 
+                alt="AITM Logo" 
+                style={{ width: "40px", height: "40px", background: "white", borderRadius: "50%", padding: "2px" }} 
+              />
+              <h5 className="fw-bold mb-0 text-white">AITM Rating System</h5>
+            </div>
+            <p className="text-white-50 small">
+              The official platform for rating and reviewing projects, events, and participants at Angadi Institute of Technology and Management. Fostering excellence through transparent evaluation.
+            </p>
+            <div className="d-flex gap-3 mt-3">
+              <a href="#" className="text-white social-icon-hover"><FaFacebookF /></a>
+              <a href="#" className="text-white social-icon-hover"><FaTwitter /></a>
+              <a href="#" className="text-white social-icon-hover"><FaInstagram /></a>
+              <a href="#" className="text-white social-icon-hover"><FaLinkedinIn /></a>
+            </div>
+          </div>
 
-      {/* About Section */}
-      <div className="col-md-4 mb-4">
-        <h5 className="fw-bold">RPWS</h5>
-        <p>RPWS is a platform for rating and reviewing college events, participants, and winners. Engage, vote, and stay updated with all our activities.</p>
-      </div>
+          {/* Quick Links */}
+          <div className="col-lg-2 col-md-6">
+            <h6 className="fw-bold text-gold mb-3">Quick Links</h6>
+            <ul className="list-unstyled">
+              <li className="mb-2"><Link className="text-white-50 text-decoration-none hover-white" to="/">Home</Link></li>
+              <li className="mb-2"><Link className="text-white-50 text-decoration-none hover-white" to="/about">About Us</Link></li>
+              <li className="mb-2"><Link className="text-white-50 text-decoration-none hover-white" to="/participants">Participants</Link></li>
+              <li className="mb-2"><Link className="text-white-50 text-decoration-none hover-white" to="/contact">Contact</Link></li>
+            </ul>
+          </div>
 
-      {/* Quick Links */}
-      <div className="col-md-2 mb-4">
-        <h5 className="fw-bold">Quick Links</h5>
-        <ul className="list-unstyled">
-          <li><Link className="text-white text-decoration-none" to="/">Home</Link></li>
-          <li><Link className="text-white text-decoration-none" to="/participants">Participate</Link></li>
-          <li><Link className="text-white text-decoration-none" to="/winner">Winner</Link></li>
-          <li><Link className="text-white text-decoration-none" to="/register">Register</Link></li>
-          <li><Link className="text-white text-decoration-none" to="/contact">Contact</Link></li>
-        </ul>
-      </div>
+          {/* Resources */}
+          <div className="col-lg-2 col-md-6">
+            <h6 className="fw-bold text-gold mb-3">Resources</h6>
+            <ul className="list-unstyled">
+              <li className="mb-2"><Link className="text-white-50 text-decoration-none hover-white" to="/login">Admin Login</Link></li>
+              <li className="mb-2"><Link className="text-white-50 text-decoration-none hover-white" to="/register">Student Registration</Link></li>
+              <li className="mb-2"><a href="#" className="text-white-50 text-decoration-none hover-white">Privacy Policy</a></li>
+              <li className="mb-2"><a href="#" className="text-white-50 text-decoration-none hover-white">Terms of Service</a></li>
+            </ul>
+          </div>
 
-      {/* Contact Info */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Contact</h5>
-        <p>Email: <a href="mailto:info@rpws.com" className="text-white text-decoration-none">info@rpws.com</a></p>
-        <p>Phone: <a href="tel:+911234567890" className="text-white text-decoration-none">+91 12345 67890</a></p>
-        <p>Address: Axis College, India</p>
-      </div>
+          {/* Contact Info */}
+          <div className="col-lg-4 col-md-6">
+            <h6 className="fw-bold text-gold mb-3">Contact Us</h6>
+            <ul className="list-unstyled text-white-50">
+              <li className="mb-3 d-flex gap-2">
+                <FaMapMarkerAlt className="mt-1 text-gold" />
+                <span>Angadi Institute of Technology and Management,<br />Savagaon Road, Belagavi, Karnataka 590009</span>
+              </li>
+              <li className="mb-3 d-flex gap-2">
+                <FaPhoneAlt className="mt-1 text-gold" />
+                <a href="tel:+911234567890" className="text-white-50 text-decoration-none hover-white">+91 831 243 8100</a>
+              </li>
+              <li className="mb-3 d-flex gap-2">
+                <FaEnvelope className="mt-1 text-gold" />
+                <a href="mailto:info@aitm.edu.in" className="text-white-50 text-decoration-none hover-white">info@aitm.edu.in</a>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-      {/* Social Links */}
-      <div className="col-md-3 mb-4">
-        <h5 className="fw-bold">Follow Us</h5>
-        <div className="d-flex gap-3">
-          <a href="#" className="text-white fs-4"><i className="bi bi-twitter"></i></a>
-          <a href="#" className="text-white fs-4"><i className="bi bi-instagram"></i></a>
-          <a href="#" className="text-white fs-4"><i className="bi bi-facebook"></i></a>
-          <a href="#" className="text-white fs-4"><i className="bi bi-linkedin"></i></a>
+        <hr className="border-secondary my-4" />
+
+        <div className="row align-items-center">
+          <div className="col-md-6 text-center text-md-start">
+            <p className="mb-0 text-white-50 small">&copy; {new Date().getFullYear()} AITM Rating System. All rights reserved.</p>
+          </div>
+          <div className="col-md-6 text-center text-md-end">
+            <p className="mb-0 text-white-50 small">Designed & Developed by RPWS Team</p>
+          </div>
         </div>
       </div>
-    </div>
-
-    {/* Divider */}
-    <hr className="border-light" />
-
-    {/* Footer Bottom */}
-    <div className="text-center">
-      <p className="mb-0">&copy; {new Date().getFullYear()} RPWS. All rights reserved.</p>
-    </div>
-  </div>
-</footer>
-
+    </footer>
   );
 };
 

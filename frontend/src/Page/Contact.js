@@ -1,150 +1,154 @@
 import React from "react";
-import "animate.css";
 import { motion } from "framer-motion";
- // ✅ Make sure logo is in src/assets
 
 const Contact = () => {
   return (
-    <div
-      className="contact-page"
-      style={{
-        background: "linear-gradient(135deg, #eef2f3, #dfe9f3)",
-        minHeight: "100vh",
-        padding: "60px 20px",
-      }}
-    >
-      {/* Logo Section */}
-      <motion.div
-        className="logo-container"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1 }}
-        style={{
-          textAlign: "center",
-          marginBottom: "40px",
-        }}
-      >
-        <img
-          src="axislogo-removebg-preview.png"
-          alt="Axis College Logo"
-          className="animate__animated animate__fadeInDown axis-logo"
-          style={{
-            width: "180px",
-            height: "auto",
-            borderRadius: "50%",
-            boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.2)",
-            transition: "transform 0.5s ease, box-shadow 0.5s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.transform = "scale(1.1)";
-            e.target.style.boxShadow = "0px 15px 30px rgba(0, 0, 0, 0.3)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = "scale(1)";
-            e.target.style.boxShadow = "0px 10px 25px rgba(0, 0, 0, 0.2)";
-          }}
-        />
-        <h2
-          className="animate__animated animate__fadeInUp"
-          style={{
-            marginTop: "20px",
-            color: "#0c2461",
-            fontWeight: "700",
-          }}
+    <div className="bg-light min-vh-100 py-5">
+      <div className="container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-5"
         >
-          AITM Support Team
-        </h2>
-        <p
-          style={{
-            fontSize: "1.1rem",
-            color: "#2d3436",
-            marginTop: "10px",
-          }}
-        >
-          This Support Page is exclusively for <strong>Axis Institute of Technology & Management</strong>.
-        </p>
-      </motion.div>
+          <h6 className="text-primary fw-bold text-uppercase">Get in Touch</h6>
+          <h1 className="display-4 fw-bold mb-3">Contact Us</h1>
+          <p className="lead text-muted mx-auto" style={{ maxWidth: "600px" }}>
+            Have questions or feedback? We'd love to hear from you. Reach out to the AITM Rating System team.
+          </p>
+        </motion.div>
 
-      {/* Contact Form Section */}
-      <motion.div
-        className="form-container"
-        initial={{ opacity: 0, y: 100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        style={{
-          background: "white",
-          borderRadius: "20px",
-          boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.1)",
-          maxWidth: "600px",
-          margin: "0 auto",
-          padding: "40px 30px",
-        }}
-      >
-        <h3 style={{ color: "#192a56", marginBottom: "20px" }}>
-          Contact Us
-        </h3>
-        <form>
-          <div className="form-group" style={{ marginBottom: "20px" }}>
-            <label>Name</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter your name"
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-              }}
-            />
+        <div className="row g-5">
+          {/* Contact Info Cards */}
+          <div className="col-lg-4">
+            <div className="d-flex flex-column gap-4">
+              {[
+                {
+                  icon: "bi-geo-alt-fill",
+                  title: "Visit Us",
+                  text: "Angadi Institute of Technology and Management, Savagaon Road, Belagavi, Karnataka 590009",
+                  color: "bg-primary",
+                },
+                {
+                  icon: "bi-envelope-fill",
+                  title: "Email Us",
+                  text: "info@aitm.edu.in",
+                  color: "bg-success",
+                },
+                {
+                  icon: "bi-telephone-fill",
+                  title: "Call Us",
+                  text: "+91 831 243 8100",
+                  color: "bg-warning",
+                },
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="card border-0 shadow-sm hover-animate"
+                >
+                  <div className="card-body p-4 d-flex align-items-start gap-3">
+                    <div
+                      className={`rounded-circle d-flex align-items-center justify-content-center text-white flex-shrink-0 ${item.color}`}
+                      style={{ width: "50px", height: "50px" }}
+                    >
+                      <i className={`bi ${item.icon} fs-4`}></i>
+                    </div>
+                    <div>
+                      <h5 className="fw-bold mb-1">{item.title}</h5>
+                      <p className="text-muted mb-0 small">{item.text}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-          <div className="form-group" style={{ marginBottom: "20px" }}>
-            <label>Email</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter your email"
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-              }}
-            />
+
+          {/* Contact Form */}
+          <div className="col-lg-8">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="card border-0 shadow-lg"
+            >
+              <div className="card-body p-5">
+                <h3 className="fw-bold mb-4">Send us a Message</h3>
+                <form>
+                  <div className="row g-3">
+                    <div className="col-md-6">
+                      <div className="form-floating">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="name"
+                          placeholder="Your Name"
+                        />
+                        <label htmlFor="name">Your Name</label>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-floating">
+                        <input
+                          type="email"
+                          className="form-control"
+                          id="email"
+                          placeholder="name@example.com"
+                        />
+                        <label htmlFor="email">Email Address</label>
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="form-floating">
+                        <select className="form-select" id="subject">
+                          <option value="general">General Inquiry</option>
+                          <option value="support">Technical Support</option>
+                          <option value="feedback">Feedback</option>
+                        </select>
+                        <label htmlFor="subject">Subject</label>
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <div className="form-floating">
+                        <textarea
+                          className="form-control"
+                          placeholder="Leave a comment here"
+                          id="message"
+                          style={{ height: "150px" }}
+                        ></textarea>
+                        <label htmlFor="message">Message</label>
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <button
+                        className="btn btn-primary btn-lg w-100 py-3 fw-bold shadow-sm"
+                        type="submit"
+                      >
+                        Send Message
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </motion.div>
           </div>
-          <div className="form-group" style={{ marginBottom: "20px" }}>
-            <label>Message</label>
-            <textarea
-              rows="4"
-              className="form-control"
-              placeholder="Write your message"
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "8px",
-                border: "1px solid #ccc",
-              }}
-            />
-          </div>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="btn btn-primary"
-            style={{
-              width: "100%",
-              padding: "12px",
-              background: "linear-gradient(45deg, #273c75, #40739e)",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-          >
-            Send Message
-          </motion.button>
-        </form>
-      </motion.div>
+        </div>
+
+        {/* Map Section (Placeholder) */}
+        <div className="mt-5 rounded-4 overflow-hidden shadow-sm">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3838.196325867623!2d74.49658731485574!3d15.84634998901867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbf66a066666667%3A0x6666666666666666!2sAngadi%20Institute%20of%20Technology%20and%20Management!5e0!3m2!1sen!2sin!4v1625636666666!5m2!1sen!2sin"
+            width="100%"
+            height="400"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            title="AITM Map"
+          ></iframe>
+        </div>
+      </div>
     </div>
   );
 };

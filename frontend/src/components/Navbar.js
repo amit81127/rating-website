@@ -35,41 +35,32 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+    <nav className="navbar navbar-expand-lg navbar-custom sticky-top">
       <div className="container">
         {/* ✅ Brand Section */}
         <Link
-          className="navbar-brand d-flex align-items-center gap-2 fw-bold fs-3"
+          className="navbar-brand d-flex align-items-center gap-3"
           to="/"
-          style={{ textDecoration: "none", color: "inherit" }}
+          style={{ textDecoration: "none" }}
         >
           <img
             src="axislogo-removebg-preview.png"
             alt="AITM Logo"
+            className="aitm-logo"
             style={{
-              width: "60px",
-              height: "60px",
+              width: "50px",
+              height: "50px",
               borderRadius: "50%",
-              objectFit: "cover",
-              background: "linear-gradient(135deg, #ffffff, #dfe9f3)",
-              boxShadow:
-                "0 4px 10px rgba(0, 0, 0, 0.25), 0 0 15px rgba(37, 117, 252, 0.3)",
-              transition:
-                "transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease",
-              border: "3px solid rgba(255, 255, 255, 0.7)",
-              padding: "3px",
-              cursor: "pointer",
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = "scale(1.1)";
-              e.target.style.boxShadow = "0 4px 15px rgba(0,0,0,0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = "scale(1)";
-              e.target.style.boxShadow = "0 2px 8px rgba(0,0,0,0.25)";
+              objectFit: "contain",
+              background: "white",
+              padding: "2px",
+              border: "2px solid var(--accent-gold)"
             }}
           />
-          <span className="fw-bold fs-4 text-white">RPWS</span>
+          <div className="d-flex flex-column">
+            <span className="fw-bold fs-5 text-white" style={{ letterSpacing: "1px" }}>AITM</span>
+            <span className="fs-6 text-gold" style={{ fontSize: "0.8rem", fontWeight: "500" }}>Rating System</span>
+          </div>
         </Link>
 
         {/* Toggle Button */}
@@ -87,7 +78,7 @@ const Navbar = () => {
 
         {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto align-items-center">
+          <ul className="navbar-nav ms-auto align-items-center gap-3">
             {/* Common Pages */}
             <li className="nav-item">
               <Link className="nav-link" to="/">
@@ -118,27 +109,28 @@ const Navbar = () => {
 
             {/* ✅ Clerk Login/Signup Buttons (redirect to Home after login/signup) */}
             <SignedOut>
-              <li className="nav-item ms-2">
+              <li className="nav-item">
                 <SignInButton mode="modal" redirectUrl="/">
-                  <button className="btn btn-outline-light">Login</button>
+                  <button className="btn btn-outline-light btn-sm px-3">Login</button>
                 </SignInButton>
               </li>
-              <li className="nav-item ms-2">
+              <li className="nav-item">
                 <SignUpButton mode="modal" redirectUrl="/">
-                  <button className="btn btn-light text-primary">Sign Up</button>
+                  <button className="btn btn-gold-custom btn-sm px-3">Sign Up</button>
                 </SignUpButton>
               </li>
             </SignedOut>
 
             {/* ✅ Clerk Logged-In User */}
             <SignedIn>
-              <li className="nav-item ms-3">
+              <li className="nav-item">
                 <UserButton
                   appearance={{
                     elements: {
                       avatarBox: {
-                        width: "40px",
-                        height: "40px",
+                        width: "35px",
+                        height: "35px",
+                        border: "2px solid var(--accent-gold)"
                       },
                     },
                   }}
@@ -149,23 +141,22 @@ const Navbar = () => {
 
             {/* ✅ Admin Login (only visible if Clerk user NOT signed in) */}
             {!isSignedIn && !token && (
-              <li className="nav-item ms-3">
-                <Link className="btn btn-outline-light" to="/login">
-                  Admin Login
+              <li className="nav-item">
+                <Link className="btn btn-outline-light btn-sm px-3" to="/login">
+                  Admin
                 </Link>
               </li>
             )}
 
             {/* ✅ Admin Dropdown (if admin is logged in) */}
             {token && !isSignedIn && (
-              <li className="nav-item dropdown ms-3" ref={dropdownRef}>
+              <li className="nav-item dropdown" ref={dropdownRef}>
                 <button
-                  className="btn btn-light btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                  className="btn btn-gold-custom btn-sm rounded-circle d-flex align-items-center justify-content-center"
                   style={{
-                    width: "40px",
-                    height: "40px",
+                    width: "35px",
+                    height: "35px",
                     fontWeight: "bold",
-                    transition: "0.3s",
                   }}
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                 >
@@ -174,11 +165,12 @@ const Navbar = () => {
 
                 {dropdownOpen && (
                   <ul
-                    className="dropdown-menu dropdown-menu-end show mt-2 shadow"
+                    className="dropdown-menu dropdown-menu-end show mt-2 shadow border-0"
                     style={{
                       borderRadius: "8px",
                       position: "absolute",
                       right: 0,
+                      minWidth: "150px"
                     }}
                   >
                     <li>
@@ -191,6 +183,9 @@ const Navbar = () => {
                       >
                         Admin Panel
                       </button>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
                     </li>
                     <li>
                       <button
